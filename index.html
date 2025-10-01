@@ -3,73 +3,49 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PlantWiz – Shopwise Consumption Report (Design)</title>
+  <title>PlantWiz – Shopwise Consumption Report</title>
   <style>
     :root{
-      --bg:#ffffff;
-      --text:#1f2430;
-      --muted:#6b7280;
-      --grid:#e5e7eb;
-      --blue:#0ea5e9;          /* header blue */
-      --blue-2:#1d4ed8;        /* darker blue */
-      --green:#86efac;         /* NPD cell */
-      --green-2:#10b981;       /* success arrow */
-      --amber:#fbbf24;         /* daily total bg */
-      --orange:#ea580c;        /* PD cell */
-      --orange-2:#f59e0b;      /* PD lighter */
-      --rose:#ef4444;          /* negative */
-      --emerald:#22c55e;       /* positive */
-      --header-h:#3.25rem;
+      --bg:#ffffff; --text:#1f2430; --muted:#6b7280; --grid:#e5e7eb;
+      --blue:#0ea5e9; --blue-2:#1d4ed8; --green:#e8f7eb; --amber:#fbbf24;
+      --pm:#e0f2fe; --cm:#dbeafe; --pd:#fde7da; --npd:#e8f7eb;
+      --bad:#ef4444; --good:#22c55e;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{margin:0;font-family:Segoe UI, Roboto, Arial, sans-serif;background:var(--bg);color:var(--text)}
-
     .wrap{padding:16px;max-width:1400px;margin:0 auto}
-
     .titlebar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
     .titlebar h1{font-size:20px;margin:0}
     .meta{font-size:12px;color:var(--muted)}
+    .legend{display:flex;gap:14px;align-items:center;margin:8px 0 14px}
+    .dot{width:12px;height:12px;border-radius:50%}
 
     .table-wrap{overflow:auto;border:1px solid var(--grid);border-radius:8px}
-
-    table{border-collapse:separate;border-spacing:0;min-width:1200px;width:100%;}
-    thead th{position:sticky;top:0;z-index:3;background:#eef6ff;color:#0f172a;border-bottom:1px solid var(--grid);}
+    table{border-collapse:separate;border-spacing:0;min-width:1200px;width:100%}
+    thead th{position:sticky;top:0;z-index:3;background:#eef6ff;color:#0f172a;border-bottom:1px solid var(--grid)}
     th,td{padding:8px 10px;border-right:1px solid var(--grid);border-bottom:1px solid var(--grid);text-align:right;white-space:nowrap}
     th:first-child, td:first-child{position:sticky;left:0;background:#f8fafc;z-index:2;text-align:left}
-    th:nth-child(2), td:nth-child(2){position:sticky;left:120px;background:#f8fafc;z-index:2;text-align:left}
-    /* set first column width to align sticky positions */
-    colgroup col.type{width:120px}
+    th:nth-child(2), td:nth-child(2){position:sticky;left:140px;background:#f8fafc;z-index:2;text-align:left}
+    colgroup col.type{width:140px}
     colgroup col.area{width:220px}
 
-    /* Left group header cells */
     .group-left{background:#eef2ff;color:#111827;font-weight:600;text-align:center;border-right:1px solid var(--grid)}
-
-    /* Metrics color blocks */
-    .pm-avg{background:#e0f2fe}
-    .cm-avg{background:#dbeafe}
-    .pd-avg{background:#fde7da}
-    .npd-avg{background:#e8f7eb}
-
-    /* Daily section */
+    .pm-avg{background:var(--pm)}
+    .cm-avg{background:var(--cm)}
+    .pd-avg{background:var(--pd)}
+    .npd-avg{background:var(--npd)}
     .daily-head{background:#e5f0ff;border-left:2px solid var(--blue-2);border-right:2px solid var(--blue-2)}
     .shift{color:#0f172a;font-weight:600}
     .total{background:var(--amber);font-weight:700}
-
-    /* Variance column */
     .variance-head{background:#f1f5f9}
-    .v-bad{color:var(--rose);font-weight:700}
-    .v-good{color:var(--emerald);font-weight:700}
-
-    /* Row styling */
-    tbody tr:nth-child(odd) td{background:#fcfcfd}
-
     .type-cell{font-weight:700;color:#111827}
     .area-cell{font-weight:600;color:#111827}
+    tbody tr:nth-child(odd) td{background:#fcfcfd}
 
-    /* Legend (optional) */
-    .legend{display:flex;gap:14px;align-items:center;margin:8px 0 14px}
-    .dot{width:12px;height:12px;border-radius:50%}
+    .muted{color:var(--muted)}
+    .v-bad{color:var(--bad);font-weight:700}
+    .v-good{color:var(--good);font-weight:700}
 
     @media print{
       .wrap{padding:0}
@@ -82,142 +58,172 @@
 <body>
   <div class="wrap">
     <div class="titlebar">
-      <h1>SHOPWISE CONSUMPTION – DESIGN MOCK</h1>
-      <div class="meta">Range: <span data-bind="dateFrom">29-Aug-25</span> to <span data-bind="dateTo">31-Aug-25</span> · Generated: <span data-bind="generated">now</span></div>
+      <h1>SHOPWISE CONSUMPTION</h1>
+      <div class="meta">Range: <span data-bind="dateFrom">—</span> to <span data-bind="dateTo">—</span> · Generated: <span data-bind="generated">—</span></div>
     </div>
 
     <div class="legend" aria-hidden="true">
-      <div class="dot" style="background:#e0f2fe"></div><span>Previous Month Avg.</span>
-      <div class="dot" style="background:#dbeafe"></div><span>Current Month Avg.</span>
-      <div class="dot" style="background:#fde7da"></div><span>PD Cur. Month Avg.</span>
-      <div class="dot" style="background:#e8f7eb"></div><span>NPD Cur. Month Avg.</span>
-      <div class="dot" style="background:#fbbf24"></div><span>Daily Total</span>
+      <div class="dot" style="background:var(--pm)"></div><span>Previous Month Avg.</span>
+      <div class="dot" style="background:var(--cm)"></div><span>Current Month Avg.</span>
+      <div class="dot" style="background:var(--pd)"></div><span>PD Cur. Month Avg.</span>
+      <div class="dot" style="background:var(--npd)"></div><span>NPD Cur. Month Avg.</span>
+      <div class="dot" style="background:var(--amber)"></div><span>Daily Total</span>
     </div>
 
     <div class="table-wrap">
-      <table role="table" aria-label="Shopwise Consumption">
+      <table role="table" aria-label="Shopwise Consumption" id="reportTable">
         <colgroup>
           <col class="type" />
           <col class="area" />
         </colgroup>
-        <thead>
-          <tr>
-            <th class="group-left" colspan="2">&nbsp;</th>
-            <th colspan="4">Averages</th>
-            <th class="daily-head" colspan="4">29-Aug-25</th>
-            <th class="daily-head" colspan="4">30-Aug-25</th>
-            <th class="daily-head" colspan="4">31-Aug-25</th>
-            <th class="variance-head" rowspan="2">PD<br/>Variance with<br/>Curr. Month Avg.</th>
-          </tr>
-          <tr>
-            <th>TYPE</th>
-            <th>AREA</th>
-            <th class="pm-avg">Previous Month Avg.</th>
-            <th class="cm-avg">Current Month Avg.</th>
-            <th class="pd-avg">PD Cur. Month Avg.</th>
-            <th class="npd-avg">NPD Cur. Month Avg.</th>
-            <!-- 29-Aug-25 shifts -->
-            <th class="shift">C-shift</th>
-            <th class="shift">A-shift</th>
-            <th class="shift">B-shift</th>
-            <th class="total">Total</th>
-            <!-- 30-Aug-25 shifts -->
-            <th class="shift">C-shift</th>
-            <th class="shift">A-shift</th>
-            <th class="shift">B-shift</th>
-            <th class="total">Total</th>
-            <!-- 31-Aug-25 shifts -->
-            <th class="shift">C-shift</th>
-            <th class="shift">A-shift</th>
-            <th class="shift">B-shift</th>
-            <th class="total">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- PRODUCTION AREA block -->
-          <tr>
-            <td class="type-cell" rowspan="6">PRODUCTION<br/>AREA</td>
-            <td class="area-cell">Stamping</td>
-            <td class="pm-avg" data-f="PrevMonthAvg">16,249</td>
-            <td class="cm-avg" data-f="CurrMonthAvg">17,863</td>
-            <td class="pd-avg" data-f="PDMonthAvg">21,366</td>
-            <td class="npd-avg" data-f="NPDMonthAvg">7,169</td>
-
-            <td data-d="2025-08-29-C">4,180</td>
-            <td data-d="2025-08-29-A">11,907</td>
-            <td data-d="2025-08-29-B">6,070</td>
-            <td class="total" data-d="2025-08-29-T">22,157</td>
-
-            <td data-d="2025-08-30-C">2,920</td>
-            <td data-d="2025-08-30-A">12,409</td>
-            <td data-d="2025-08-30-B">5,501</td>
-            <td class="total" data-d="2025-08-30-T">20,830</td>
-
-            <td data-d="2025-08-31-C">3,496</td>
-            <td data-d="2025-08-31-A">12,954</td>
-            <td data-d="2025-08-31-B">7,673</td>
-            <td class="total" data-d="2025-08-31-T">24,123</td>
-
-            <td class="v-bad">&#9650; 12.90 %</td>
-          </tr>
-          <tr>
-            <td class="area-cell">BIW</td>
-            <td class="pm-avg">30,189</td>
-            <td class="cm-avg">31,332</td>
-            <td class="pd-avg">35,643</td>
-            <td class="npd-avg">17,760</td>
-            <td>7,936</td><td>16,196</td><td>13,053</td><td class="total">37,185</td>
-            <td>7,278</td><td>14,701</td><td>14,902</td><td class="total">36,881</td>
-            <td>6,514</td><td>16,176</td><td>11,559</td><td class="total">34,249</td>
-            <td class="v-good">&#9660; 03.91 %</td>
-          </tr>
-          <tr>
-            <td class="area-cell">PAINT</td>
-            <td class="pm-avg">57,046</td>
-            <td class="cm-avg">63,054</td>
-            <td class="pd-avg">75,154</td>
-            <td class="npd-avg">24,053</td>
-            <td>9,744</td><td>44,344</td><td>14,544</td><td class="total">68,632</td>
-            <td>9,680</td><td>43,960</td><td>18,712</td><td class="total">72,352</td>
-            <td>10,848</td><td>40,072</td><td>16,224</td><td class="total">71,144</td>
-            <td class="v-good">&#9660; 05.34 %</td>
-          </tr>
-          <tr>
-            <td class="area-cell">TCF</td>
-            <td class="pm-avg">20,942</td>
-            <td class="cm-avg">22,535</td>
-            <td class="pd-avg">27,390</td>
-            <td class="npd-avg">7,448</td>
-            <td>3,089</td><td>10,405</td><td>10,444</td><td class="total">27,538</td>
-            <td>3,536</td><td>14,239</td><td>8,651</td><td class="total">26,426</td>
-            <td>3,276</td><td>13,702</td><td>10,758</td><td class="total">27,356</td>
-            <td class="v-good">&#9660; 00.12 %</td>
-          </tr>
-          <tr>
-            <td class="area-cell">SPP</td>
-            <td class="pm-avg">2,987</td>
-            <td class="cm-avg">2,711</td>
-            <td class="pd-avg">3,027</td>
-            <td class="npd-avg">1,604</td>
-            <td>373</td><td>620</td><td>471</td><td class="total">1,464</td>
-            <td>664</td><td>2,273</td><td>702</td><td class="total">3,638</td>
-            <td>420</td><td>639</td><td>597</td><td class="total">1,637</td>
-            <td class="v-good">&#9660; 45.92 %</td>
-          </tr>
-          <tr>
-            <td class="area-cell">UTILITY</td>
-            <td class="pm-avg">58,719</td>
-            <td class="cm-avg">62,151</td>
-            <td class="pd-avg">74,466</td>
-            <td class="npd-avg">24,277</td>
-            <td>12,470</td><td>42,811</td><td>14,711</td><td class="total">69,393</td>
-            <td>12,997</td><td>42,065</td><td>20,937</td><td class="total">75,999</td>
-            <td>14,668</td><td>44,804</td><td>19,280</td><td class="total">78,752</td>
-            <td class="v-bad">&#9650; 05.76 %</td>
-          </tr>
-        </tbody>
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
       </table>
     </div>
   </div>
+
+  <script>
+  (async () => {
+    // 1) Load JSON (same folder as this file)
+    const url = `data.json?v=${Date.now()}`;
+    const res = await fetch(url, { cache: "no-store" });
+    const data = await res.json();
+
+    // 2) Bind header metadata
+    const fmtDate = (iso) => {
+      const d = new Date(iso);
+      return d.toLocaleDateString("en-GB"); // dd/mm/yyyy
+    };
+    document.querySelector('[data-bind="dateFrom"]').textContent = fmtDate(data.from);
+    document.querySelector('[data-bind="dateTo"]').textContent   = fmtDate(data.to);
+    document.querySelector('[data-bind="generated"]').textContent = new Date(data.generatedAt).toLocaleString();
+
+    // 3) Prepare pivot
+    // Map DB shifts to display order C, A, B
+    const shiftMap = [
+      { key: "Shift_3_Consumption", label: "C-shift" }, // C first
+      { key: "Shift_1_Consumption", label: "A-shift" }, // A
+      { key: "Shift_2_Consumption", label: "B-shift" }  // B
+    ];
+
+    // Unique dates present in rows (sorted asc), limit to 3 most-recent to match your mock
+    const dateKey = r => new Date(r.Date).toISOString().slice(0,10);
+    const uniqueDates = Array.from(new Set(data.rows.map(dateKey))).sort();
+    const dates = uniqueDates.slice(-3); // last 3 days
+
+    // Group by Type -> Jace
+    const groups = {};
+    for (const r of data.rows) {
+      const t = r.Type || "—";
+      const j = r.Jace || "—";
+      const dkey = dateKey(r);
+      groups[t] = groups[t] || {};
+      groups[t][j] = groups[t][j] || {};
+      groups[t][j][dkey] = r; // store the whole row for that day
+    }
+
+    // 4) Build THEAD with two rows
+    const thead = document.getElementById("thead");
+    const tr1 = document.createElement("tr");
+    const tr2 = document.createElement("tr");
+
+    const thGroup = (txt, span, cls="") => {
+      const th = document.createElement("th");
+      th.textContent = txt;
+      th.colSpan = span;
+      if (cls) th.className = cls;
+      return th;
+    };
+    const thCell = (txt, cls="") => {
+      const th = document.createElement("th");
+      th.textContent = txt;
+      if (cls) th.className = cls;
+      return th;
+    };
+
+    tr1.appendChild(thGroup("", 2, "group-left"));     // left group empty (TYPE/AREA)
+    tr1.appendChild(thGroup("Averages", 4));
+    for (const d of dates) {
+      const dn = new Date(d);
+      const label = dn.toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"2-digit" });
+      tr1.appendChild(thGroup(label, 4, "daily-head"));
+    }
+    tr1.appendChild(thGroup("PD Variance vs Curr. Month Avg.", 1, "variance-head"));
+
+    tr2.appendChild(thCell("TYPE"));
+    tr2.appendChild(thCell("AREA"));
+    tr2.appendChild(thCell("Previous Month Avg.", "pm-avg"));
+    tr2.appendChild(thCell("Current Month Avg.", "cm-avg"));
+    tr2.appendChild(thCell("PD Cur. Month Avg.", "pd-avg"));
+    tr2.appendChild(thCell("NPD Cur. Month Avg.", "npd-avg"));
+    for (const _ of dates) {
+      tr2.appendChild(thCell("C-shift","shift"));
+      tr2.appendChild(thCell("A-shift","shift"));
+      tr2.appendChild(thCell("B-shift","shift"));
+      tr2.appendChild(thCell("Total","total"));
+    }
+    thead.appendChild(tr1);
+    thead.appendChild(tr2);
+
+    // 5) Build TBODY
+    const tbody = document.getElementById("tbody");
+    const fmtNum = (v) => (v ?? v === 0) ? Number(v).toLocaleString("en-IN") : "";
+
+    for (const type of Object.keys(groups)) {
+      const jaces = Object.keys(groups[type]);
+
+      // TYPE cell will span as many Jaces as we render
+      let firstRow = true;
+      for (const jace of jaces) {
+        const tr = document.createElement("tr");
+
+        if (firstRow) {
+          const tdType = document.createElement("td");
+          tdType.className = "type-cell";
+          tdType.rowSpan = jaces.length;
+          tdType.innerHTML = type.replace(" ", "<br/>");
+          tr.appendChild(tdType);
+          firstRow = false;
+        }
+
+        const tdArea = document.createElement("td");
+        tdArea.className = "area-cell";
+        tdArea.textContent = jace;
+        tr.appendChild(tdArea);
+
+        // Averages placeholders (until formulas are provided)
+        const tdPM  = document.createElement("td"); tdPM.className  = "pm-avg muted"; tdPM.textContent  = "—"; tr.appendChild(tdPM);
+        const tdCM  = document.createElement("td"); tdCM.className  = "cm-avg muted"; tdCM.textContent  = "—"; tr.appendChild(tdCM);
+        const tdPD  = document.createElement("td"); tdPD.className  = "pd-avg muted"; tdPD.textContent  = "—"; tr.appendChild(tdPD);
+        const tdNPD = document.createElement("td"); tdNPD.className = "npd-avg muted"; tdNPD.textContent = "—"; tr.appendChild(tdNPD);
+
+        // Daily sections for each date
+        for (const d of dates) {
+          const r = (groups[type][jace] || {})[d] || {};
+          const cVal = r["Shift_3_Consumption"]; // C
+          const aVal = r["Shift_1_Consumption"]; // A
+          const bVal = r["Shift_2_Consumption"]; // B
+          const total = (cVal ?? 0) + (aVal ?? 0) + (bVal ?? 0);
+
+          const tdC = document.createElement("td"); tdC.textContent = fmtNum(cVal); tr.appendChild(tdC);
+          const tdA = document.createElement("td"); tdA.textContent = fmtNum(aVal); tr.appendChild(tdA);
+          const tdB = document.createElement("td"); tdB.textContent = fmtNum(bVal); tr.appendChild(tdB);
+          const tdT = document.createElement("td"); tdT.className = "total"; tdT.textContent = fmtNum(total); tr.appendChild(tdT);
+        }
+
+        // Variance placeholder
+        const tdVar = document.createElement("td");
+        tdVar.className = "muted";
+        tdVar.textContent = "—";
+        tr.appendChild(tdVar);
+
+        tbody.appendChild(tr);
+      }
+    }
+  })().catch(err=>{
+    console.error(err);
+    alert("Failed to load data.json: " + err);
+  });
+  </script>
 </body>
 </html>
