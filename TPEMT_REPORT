@@ -1,0 +1,84 @@
+{
+  "generatedAt": "2025-10-01T12:36:14.9963099+05:30",
+  "from": "2025-09-29T00:00:00",
+  "to": "2025-09-30T00:00:00",
+  "rows": [
+    {
+      "Date": "2025-09-29T00:00:00",
+      "Timestamp": "29-09-2025",
+      "Jace": "33KV",
+      "Type": "Production Area",
+      "Total_Consumption": 100,
+      "Shift_1_Consumption": 50,
+      "Shift_2_Consumption": 25,
+      "Shift_3_Consumption": 25,
+      "Production": 120
+    },
+    {
+      "Date": "2025-09-29T00:00:00",
+      "Timestamp": "29-09-2025",
+      "Jace": "BODYSHOP",
+      "Type": "Production Area",
+      "Total_Consumption": 75,
+      "Shift_1_Consumption": 25,
+      "Shift_2_Consumption": 25,
+      "Shift_3_Consumption": 25,
+      "Production": 120
+    },
+    {
+      "Date": "2025-09-29T00:00:00",
+      "Timestamp": "29-09-2025",
+      "Jace": "ENGINESHOP",
+      "Type": "Production Area",
+      "Total_Consumption": 80,
+      "Shift_1_Consumption": 40,
+      "Shift_2_Consumption": 20,
+      "Shift_3_Consumption": 20,
+      "Production": 120
+    },
+    {
+      "Date": "2025-09-29T00:00:00",
+      "Timestamp": "29-09-2025",
+      "Jace": "PAINTSHOP",
+      "Type": "Production Area",
+      "Total_Consumption": 90,
+      "Shift_1_Consumption": 0,
+      "Shift_2_Consumption": 45,
+      "Shift_3_Consumption": 45,
+      "Production": 120
+    },
+    {
+      "Date": "2025-09-29T00:00:00",
+      "Timestamp": "29-09-2025",
+      "Jace": "SPP",
+      "Type": "Production Area",
+      "Total_Consumption": 60,
+      "Shift_1_Consumption": 30,
+      "Shift_2_Consumption": 10,
+      "Shift_3_Consumption": 20,
+      "Production": 120
+    },
+    {
+      "Date": "2025-09-29T00:00:00",
+      "Timestamp": "29-09-2025",
+      "Jace": "STAMPING",
+      "Type": "Production Area",
+      "Total_Consumption": 25,
+      "Shift_1_Consumption": 10,
+      "Shift_2_Consumption": 10,
+      "Shift_3_Consumption": 5,
+      "Production": 120
+    },
+    {
+      "Date": "2025-09-29T00:00:00",
+      "Timestamp": "29-09-2025",
+      "Jace": "TCF",
+      "Type": "Production Area",
+      "Total_Consumption": 30,
+      "Shift_1_Consumption": 20,
+      "Shift_2_Consumption": 5,
+      "Shift_3_Consumption": 5,
+      "Production": 120
+    }
+  ]
+}
