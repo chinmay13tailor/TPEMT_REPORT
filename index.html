@@ -84,19 +84,27 @@
 
   <script>
   (async () => {
-    // ---------- smart data source detection ----------
+    // ---------- config ----------
     const repoUser   = "chinmay13tailor";
     const repoName   = "TPEMT_REPORT";
     const repoBranch = "main"; // change if you use another branch
 
-    const basePath = location.pathname.endsWith('/') ? location.pathname : location.pathname.replace(/[^/]+$/, '');
-    const candidates = [
-      // 1) same folder as index.html (GitHub Pages root)
-      `${basePath}data.json?v=${Date.now()}`,
-      // 2) raw on GitHub
-      `https://raw.githubusercontent.com/${repoUser}/${repoName}/${repoBranch}/data.json?v=${Date.now()}`,
-      // 3) local dev server (serve C:\OptixReports with: python -m http.server 8000)
-      `http://localhost:8000/data.json?v=${Date.now()}`,
+    // Allow manual override: ?data=https://.../data.json
+    const params = new URLSearchParams(location.search);
+    const manual = params.get("data");
+
+    // Compute base folder of current page
+    const basePath = location.pathname.endsWith('/')
+      ? location.pathname
+      : location.pathname.replace(/[^/]+$/, '');
+
+    // Candidate URLs (in order). We include nested folder fallbacks.
+    const candidates = manual ? [manual] : [
+      `${basePath}data.json?v=${Date.now()}`,                              // same folder
+      `${basePath}${repoName}/data.json?v=${Date.now()}`,                 // nested /<repo>/<repo>/data.json
+      `/` + `${repoName}/data.json?v=${Date.now()}`,                      // absolute /<repo>/data.json
+      `https://raw.githubusercontent.com/${repoUser}/${repoName}/${repoBranch}/data.json?v=${Date.now()}`, // raw
+      `http://localhost:8000/data.json?v=${Date.now()}`,                  // local server (C:\OptixReports)
       `http://127.0.0.1:8000/data.json?v=${Date.now()}`
     ];
 
@@ -106,7 +114,6 @@
       try {
         const res = await fetch(url, { cache: "no-store", signal: ctrl.signal });
         if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-        // guard: if server returned HTML error page, JSON.parse would throw
         const txt = await res.text();
         try { return JSON.parse(txt); }
         catch(e){ throw new Error("Not JSON at " + url); }
@@ -128,8 +135,8 @@
     if (!data) {
       alert("Could not load data.json from any source.\n" +
             "Make sure either:\n" +
-            "  • data.json is committed next to index.html in your repo, OR\n" +
-            "  • you run a local server in C:\\OptixReports with: python -m http.server 8000");
+            "  • data.json is committed next to index.html (or try ?data=<url>), OR\n" +
+            "  • run a local server in C:\\OptixReports with: python -m http.server 8000");
       return;
     }
     console.log("Loaded data from:", used);
@@ -141,15 +148,9 @@
     document.querySelector('[data-bind="generated"]').textContent = new Date(data.generatedAt).toLocaleString();
 
     // ---------- table rendering ----------
-    const shiftMap = [
-      { key: "Shift_3_Consumption", label: "C-shift" }, // C
-      { key: "Shift_1_Consumption", label: "A-shift" }, // A
-      { key: "Shift_2_Consumption", label: "B-shift" }  // B
-    ];
-
     const dateKey = r => new Date(r.Date).toISOString().slice(0,10);
     const uniqueDates = Array.from(new Set((data.rows||[]).map(dateKey))).sort();
-    const dates = uniqueDates.slice(-3); // show last 3 days like the mock
+    const dates = uniqueDates.slice(-3); // show last 3 days (adjust if you want more)
 
     // Group by Type -> Jace -> day
     const groups = {};
@@ -162,7 +163,7 @@
       groups[t][j][d] = r;
     }
 
-    // Build thead (two rows)
+    // Build thead
     const thead = document.getElementById("thead");
     const tr1 = document.createElement("tr");
     const tr2 = document.createElement("tr");
@@ -216,7 +217,7 @@
         tdArea.textContent = j;
         tr.appendChild(tdArea);
 
-        // Averages placeholders (awaiting your formulas)
+        // Averages placeholders (wire later when logic is ready)
         const mk = (cls) => { const td=document.createElement("td"); td.className = cls + " muted"; td.textContent = "—"; return td; };
         tr.appendChild(mk("pm-avg"));
         tr.appendChild(mk("cm-avg"));
